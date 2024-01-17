@@ -57,8 +57,8 @@ submitButton.addEventListener("click", function () {
 
   console.log(students);
 
-  document.querySelector("firstName").value = "";
-  document.querySelector("lastName").value = "";
-  document.querySelector("age").value = "";
-  document.querySelector("email").value = "";
+  document.querySelector("#firstName").value = "";
+  document.querySelector("#lastName").value = "";
+  document.querySelector("#age").value = "";
+  document.querySelector("#email").value = "";
 });

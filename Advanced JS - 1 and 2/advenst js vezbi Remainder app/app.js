@@ -62,6 +62,15 @@ function generateReminderObj(title, priority, color, description) {
 
 let reminders = [];
 
+// Creating a function that will delete all value in inputs when function is called
+
+function clearInputs() {
+  document.querySelector("#title").value = "";
+  document.querySelector("#priority").value = "";
+  document.querySelector("#color").value = "";
+  document.querySelector("#description").value = "";
+}
+
 // Creating a function with event listener that on click will generate new reminder(obejct) and that new reminder
 // (object) will be pushed in empty array and will console log array
 
@@ -78,16 +87,9 @@ addButton.addEventListener("click", function () {
   reminders.push(newReminder);
 
   console.log(reminders);
+
+  clearInputs(document.querySelector("input"));
 });
-
-// Creating a function that will delete all value in inputs when function is called
-
-function clearInputs() {
-  document.querySelector("#title").value = "";
-  document.querySelector("#priority").value = "";
-  document.querySelector("#color").value = "";
-  document.querySelector("#description").value = "";
-}
 
 // Creating a function with add event listener that on click will be create a table with 3 th in table head and
 // will display a value from inputs in next rows us a reminders. th data will have color from input
@@ -104,19 +106,17 @@ showButton.addEventListener("click", function () {
             <th>Description</th>
           </tr>
   </thead>`;
+  let rowHTML = "";
   for (let i = 0; i < reminders.length; i++) {
-    table.innerHTML += `
-    <tbody>
+    rowHTML += `    
     <tr>
     <td style="color:${reminders[i].color}">${reminders[i].title}</td>
     <td>${reminders[i].priority}</td>
     <td>${reminders[i].description}</td>
-    </tr>
-    </tbody>
+    </tr>    
     `;
+    table.innerHTML += `<tbody>${rowHTML}</tbody>`;
   }
-
-  clearInputs();
 });
 
 // Add event listener button with function that delete all table with added reminders and table head
