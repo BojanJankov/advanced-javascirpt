@@ -1,0 +1,16 @@
+body {
+  font-family: sans-serif;
+}
+
+.card-container {
+  display: grid;
+  place-content: center;
+}
+
+#product-detalis {
+  max-width: 500px;
+  padding: 10px;
+  margin: 10px;
+  background-color: aqua;
+  border: 2px solid darkgray;
+}
