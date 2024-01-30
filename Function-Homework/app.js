@@ -21,7 +21,11 @@ const fetchData = () => {
     })
     .then((data) => {
       // console.log(data);
-      applayToApi(data);
+      console.log(averageGrade(data));
+      console.log(femaleNameAndAverageGrade(data));
+      console.log(maleStudentsInSkopje(data));
+      console.log(averageGradeOfFemaleStudents(data));
+      console.log(studentsWithBLetter(data));
     });
 };
 
@@ -70,20 +74,12 @@ const studentsWithBLetter = (data) => {
       (student) =>
         student.gender === "Male" &&
         student.averageGrade > 2 &&
-        student.firstName.includes("B")
+        student.firstName.startsWith("B")
     )
     .map((student) => {
       return `${student.firstName}`;
     });
   return maleStudentsWithB;
-};
-
-const applayToApi = (data) => {
-  console.log(averageGrade(data));
-  console.log(femaleNameAndAverageGrade(data));
-  console.log(maleStudentsInSkopje(data));
-  console.log(averageGradeOfFemaleStudents(data));
-  console.log(studentsWithBLetter(data));
 };
 
 fetchData();
