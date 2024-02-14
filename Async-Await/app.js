@@ -20,14 +20,17 @@ console.log("Scirpt is working");
 // Show on the screen if some users have an average grade of 1 or if all users are adults ( above 18)
 
 const fetchData = async () => {
-  const response = await fetch(
-    "https://raw.githubusercontent.com/sedc-codecademy/skwd9-04-ajs/main/Samples/students_v2.json"
-  );
-  let data = await response.json();
-  console.log(data);
+  try {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/sedc-codecademy/skwd9-04-ajs/main/Samples/students_v2.json"
+    );
+    let data = await response.json();
+    console.log(data);
 
-  renderHTML(data);
-  return data;
+    renderHTML(data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const renderHTML = (studentsDetalis) => {
@@ -77,12 +80,13 @@ const renderHTML = (studentsDetalis) => {
 
   const listContainer = document.querySelector(".list");
 
-  const students = studentsDetalis.filter((student) => {
-    return student.age > 30 && student.averageGrade === 4;
-  });
-
-  listContainer.innerHTML = students
-    .map((student) => `<li>Name: ${student.firstName} ${student.lastName}</li>`)
+  listContainer.innerHTML += studentsDetalis
+    .filter((student) => {
+      return student.age > 30 && student.averageGrade === 4;
+    })
+    .map((student) => {
+      return `<li>Name: ${student.firstName} ${student.lastName}</li>`;
+    })
     .join("");
 
   // Find the student named Arthur Cadore and display all of his information
@@ -159,12 +163,13 @@ const renderHTML = (studentsDetalis) => {
 
   const ulList = document.querySelector(".container-list");
 
-  const studentsWithLongLastName = studentsDetalis.filter((student) => {
-    return student.lastName.length > 8;
-  });
-
-  ulList.innerHTML = studentsWithLongLastName
-    .map((student) => `<li>${student.firstName} ${student.lastName}</li>`)
+  ulList.innerHTML = studentsDetalis
+    .filter((student) => {
+      return student.lastName.length > 8;
+    })
+    .map((student) => {
+      return `<li>${student.firstName} ${student.lastName}</li>`;
+    })
     .join("");
 
   // Show a list of the top 10 best students by average grade
