@@ -42,16 +42,13 @@ startSubject - When the student calls startSubject the student should also be ad
 */
 
 class Academy {
-  constructor(name, students, subjects, startData, endDate) {
+  constructor(name, students, subjects, startData, endDate, numberOfClases) {
     this.name = name;
     this.students = students;
     this.subjects = subjects;
     this.start = startData;
     this.end = endDate;
-  }
-
-  numberOfClases() {
-    return this.subjects.length * 10;
+    this.numberOfClases = numberOfClases * 10;
   }
 
   printStudents() {
@@ -66,24 +63,18 @@ class Academy {
   }
 }
 
-const academyOne = new Academy(
-  "SEDC",
-  ["Bojan", "Nikola", "Ana", "Ilir", "Filip", "Konstantin"],
-  ["HTML", "CSS", "BasicJs", "AdvancedJs", "NodeJs"],
-  "17.10.2023",
-  "20.10.2024"
-);
+const academyOne = new Academy("SEDC", [], [], "17.10.2023", "20.10.2024", 10);
 
-// console.log(academyOne);
+console.log(academyOne);
 
 // console.log(academyOne.printStudents());
 
 // console.log(academyOne.printSubjects());
 
 class Subject {
-  constructor(title, numberOfClasses = 10, isElective, academy, students) {
+  numberOfClasses = 10;
+  constructor(title, isElective, academy, students) {
     this.title = title;
-    this.numberOfClasses = numberOfClasses;
     this.isElective = isElective;
     this.academy = academy;
     this.students = students;
@@ -91,19 +82,12 @@ class Subject {
 
   overrideClasses(number) {
     if (number > 3) {
-      return (this.numberOfClasses = number);
+      this.numberOfClasses = number;
     }
   }
 }
 
-const subjectOne = new Subject("NodeJs", 10, false, academyOne, [
-  "Bojan",
-  "Nikola",
-  "Ana",
-  "Ilir",
-  "Filip",
-  "Konstantin",
-]);
+const subjectOne = new Subject("NodeJs", 10, false, academyOne, []);
 
 // console.log(subjectOne);
 
@@ -112,48 +96,38 @@ subjectOne.overrideClasses(12);
 // console.log(subjectOne);
 
 class Student {
-  constructor(
-    firstName,
-    lastName,
-    age,
-    completedSubject = [],
-    academy = null,
-    currentSubject = null
-  ) {
+  academy = null;
+  currentSubject = null;
+  completedSubject = [];
+  constructor(firstName, lastName, age) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.age = age;
-    this.completedSubject = completedSubject;
-    this.academy = academy;
-    this.currentSubject = currentSubject;
   }
 
   startAcademy(academyObejct) {
-    return (
-      (this.academy = academyObejct) &&
-      academyObejct.students.push(this.firstName)
-    );
+    this.academy = academyObejct && academyObejct.students.push(this);
   }
 
   startSubject(subjectObject) {
-    if (this.currentSubject) {
-      return this.completedSubject.push(this.currentSubject);
-    }
-    if (!this.currentSubject) {
-      return (this.currentSubject = subjectObject);
-    }
     if (
       this.academy &&
       academyOne.subjects.some((subject) => {
         return subject === subjectObject.title;
       })
     ) {
-      return subjectOne.students.push(this.firstName);
+      return subjectOne.students.push(this);
+    }
+    if (!this.currentSubject) {
+      return (this.currentSubject = subjectObject);
+    }
+    if (this.currentSubject) {
+      return this.completedSubject.push(this.currentSubject);
     }
   }
 }
 
-const studentOne = new Student("David", "Davidovski", 20, "BasicJs");
+const studentOne = new Student("David", "Davidovski", 20);
 
 // console.log(academyOne);
 
