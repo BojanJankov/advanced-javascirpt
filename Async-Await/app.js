@@ -92,18 +92,22 @@ const renderHTML = (studentsDetalis) => {
   // Find the student named Arthur Cadore and display all of his information
   // I will use filter for this function beacuse return array with one element and then with map will print information in HTML
 
-  const findArthur = studentsDetalis.filter((student) => {
+  const findArthur = studentsDetalis.find((student) => {
     return student.firstName === "Arthur" && student.lastName === "Cadore";
   });
 
   const container = document.querySelector(".container");
 
-  container.innerHTML = findArthur
-    .map(
-      (student) =>
-        `<h2>${student.firstName} ${student.lastName} from ${student.city}, Age: ${student.age}.</h2>`
-    )
-    .join("");
+  if (findArthur) {
+    container.innerHTML = `
+    
+    <p>${findArthur.firstName}</p>
+    <p>${findArthur.lastName}</p>
+    <p>${findArthur.age}</p>
+    <p>${findArthur.city}</p>
+    <p>${findArthur.averageGrade}</p>
+    <p>${findArthur.gender}</p>`;
+  }
 
   // Find the oldest and youngest student and display their information on the screen
 
@@ -176,43 +180,42 @@ const renderHTML = (studentsDetalis) => {
 
   const bestList = document.querySelector(".best-list");
 
-  const bestStudents = studentsDetalis.filter((student) => {
-    return student.averageGrade === 5;
-  });
-  bestList.innerHTML += bestStudents.slice(0, 10).map((student) => {
-    return `<li>${student.firstName} ${student.lastName} with average grade of ${student.averageGrade}</li>`;
-  });
+  const studentListCopy = studentsDetalis.map((student) => student);
+  bestList.innerHTML += studentListCopy
+    .sort((a, b) => {
+      return b.averageGrade - a.averageGrade;
+    })
+    .slice(0, 10)
+    .map((student) => {
+      return `<li>${student.firstName} ${student.lastName}, ${student.averageGrade}`;
+    })
+    .join("");
+
+  // bestStudents.sort()
+  // const bestStudents = studentsDetalis.filter((student) => {
+  //   return student.averageGrade === 5;
+  // });
+  // bestList.innerHTML += bestStudents.slice(0, 10).map((student) => {
+  //   return `<li>${student.firstName} ${student.lastName} with average grade of ${student.averageGrade}</li>`;
+  // });
 
   // Show on the screen if some users have an average grade of 1 or if all users are adults ( above 18)
 
-  const listAverageGradeOfOne = document.querySelector(".averaGradeOfOne");
-  const stundetsButton = document.querySelector(".buttonForGradeOne");
+  const containerForAdultsandStudentsWithGradeOfOne = document.querySelector(
+    ".studentsGradeOfOneOrAdults"
+  );
 
-  stundetsButton.addEventListener("click", () => {
-    const studentsWithAverageGradeOfOne = studentsDetalis.filter((student) => {
-      return student.averageGrade === 1;
-    });
+  const stundetsWithGradeOfOne = studentsDetalis.some(
+    (student) => student.averageGrade === 1
+  );
+  const allUsersAdultsCheck = studentsDetalis.every(
+    (student) => student.age >= 18
+  );
 
-    listAverageGradeOfOne.innerHTML += studentsWithAverageGradeOfOne.map(
-      (student) => {
-        return `<li>${student.firstName} ${student.lastName}</li>`;
-      }
-    );
-  });
-
-  const adultList = document.querySelector(".adultStudents");
-  const adultBtn = document.querySelector(".buttonAdultStudents");
-
-  adultBtn.addEventListener("click", () => {
-    const adultStudents = studentsDetalis.filter((student) => {
-      return student.age >= 18;
-    });
-    console.log(adultStudents);
-
-    adultList.innerHTML += adultStudents.map((student) => {
-      return `<li>${student.firstName} ${student.lastName}</li>`;
-    });
-  });
+  containerForAdultsandStudentsWithGradeOfOne.innerHTML += `
+  <h2>There are some students with an average grade of 1: ${stundetsWithGradeOfOne}</h2>
+  <h2>All students are adult(18 or 18+): ${allUsersAdultsCheck}</h2>
+  `;
 };
 
 fetchData();
